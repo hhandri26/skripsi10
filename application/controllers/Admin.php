@@ -415,8 +415,8 @@ class Admin extends CI_Controller
 			public function nilai_saw()
 			{
 				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
-				$data['table'] 					= $this->admin_models->get_nilai_saw()->result();
-				$data['warga'] 					= $this->admin_models->get_all_warga()->result();
+				$data['table'] 					= $this->admin_models->get_nilai_saw2()->result();
+				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
 				$data['script_top']    			= 'admin/script_top';
 				$data['script_bottom']  		= 'admin/script_btm';
 				$data['admin_nav']				= 'admin/admin_nav';
@@ -428,58 +428,179 @@ class Admin extends CI_Controller
 
 			}
 
-			public function nilai_wp()
+			public function nilai_topsis()
 			{
 				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
-				$data['table'] 					= $this->admin_models->get_nilai_wp()->result();
-				$data['warga'] 					= $this->admin_models->get_all_warga()->result();
+				$data['table'] 					= $this->admin_models->get_nilai_topsis()->result();
+				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
 				$data['script_top']    			= 'admin/script_top';
 				$data['script_bottom']  		= 'admin/script_btm';
 				$data['admin_nav']				= 'admin/admin_nav';
 				$data['judul'] 					= 'Penilaian';
-				$data['sub_judul'] 				= 'Penilaian WP';
-				$data['content'] 				= 'admin/nilai_wp';
+				$data['sub_judul'] 				= 'Penilaian Topsis';
+				$data['content'] 				= 'admin/nilai_topsis';
 				$data['nav_top']				= 'penilaian';
 				$this->load->view('admin/home', $data);
+
+			}
+
+			public function hitung_topsis(){
+				$no_peserta 			= $this->input->post('no_peserta');
+				$id_guru 				= $this->db->get_where('tb_guru',array('nik'=>$no_peserta))->row();
+				$nilai1_rs= $this->admin_models->get_nilai_peserta($id_guru->nik,'1')->row();
+				$nilai2_rs= $this->admin_models->get_nilai_peserta($id_guru->nik,'2')->row();
+				$nilai3_rs= $this->admin_models->get_nilai_peserta($id_guru->nik,'3')->row();
+				$nilai4_rs= $this->admin_models->get_nilai_peserta($id_guru->nik,'4')->row();
+				$nilai5_rs= $this->admin_models->get_nilai_peserta($id_guru->nik,'5')->row();
+				//var_dump($nilai2_rs);die();
+				// tampung array
+				$guru = $this->admin_models->get_all_guru()->result();
+				$tampung_nilai = array();
+				$pembagi1 = 0;
+				$pembagi2 = 0;
+				$pembagi3 = 0;
+				$pembagi4 = 0;
+				$pembagi5 = 0;
+
+				foreach($guru as $row){
+					//$pembagi+=pow($row,2);
+					$nilai1= $this->admin_models->get_nilai_peserta($row->nik,'1')->row();
+					$nilai2= $this->admin_models->get_nilai_peserta($row->nik,'2')->row();
+					$nilai3= $this->admin_models->get_nilai_peserta($row->nik,'3')->row();
+					$nilai4= $this->admin_models->get_nilai_peserta($row->nik,'4')->row();
+					$nilai5= $this->admin_models->get_nilai_peserta($row->nik,'5')->row();
+					$pembagi1+=pow($nilai1->angka_penilaian,2);
+					$pembagi2+=pow($nilai2->angka_penilaian,2);
+					$pembagi3+=pow($nilai3->angka_penilaian,2);
+					$pembagi4+=pow($nilai4->angka_penilaian,2);
+					$pembagi5+=pow($nilai5->angka_penilaian,2);
+				}
+				
+				
+				// hasil pembagian
+				$hasil_bagi1 = sqrt($pembagi1);
+				$hasil_bagi2 = sqrt($pembagi2);
+				$hasil_bagi3 = sqrt($pembagi3);
+				$hasil_bagi4 = sqrt($pembagi4);
+				$hasil_bagi5 = sqrt($pembagi5);
+				//var_dump($hasil_bagi1);die();
+				// RIJ
+				$rij_c1 = $nilai1_rs->angka_penilaian / $hasil_bagi1;
+				$rij_c2 = $nilai2_rs->angka_penilaian / $hasil_bagi2;
+				$rij_c3 = $nilai3_rs->angka_penilaian / $hasil_bagi3;
+				$rij_c4 = $nilai4_rs->angka_penilaian / $hasil_bagi4;
+				$rij_c5 = $nilai5_rs->angka_penilaian / $hasil_bagi5;
+				// terbobot
+				$w1=3;
+				$w2=4;
+				$w3=5;
+				$w4=5;
+				$w5=5;
+				$nilai_bobot['1'] = $w1*$rij_c1;
+				$nilai_bobot['2'] = $w2*$rij_c2;
+				$nilai_bobot['3'] = $w3*$rij_c3;
+				$nilai_bobot['4'] = $w4*$rij_c4;
+				$nilai_bobot['5'] = $w5*$rij_c5;
+
+				//var_dump($nilai_bobot);die();
+
+				// masuukan hasil YIJ
+				$insert= array(
+					"id_guru" 	=>$id_guru->id,
+					"result_c1" =>$nilai_bobot['1'],
+					"result_c2"=>$nilai_bobot['2'],
+					"result_c3"=>$nilai_bobot['3'],
+					"result_c4"=>$nilai_bobot['4'],
+					"result_c5"=>$nilai_bobot['5'],
+				);
+				//var_dump($insert);die();
+				
+				if($this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru->id))->row()){
+					$this->session->set_flashdata('danger', 'Guru Sudah Di Hitung');				
+					redirect('admin/nilai_topsis');
+
+				}else{
+					$this->admin_models->insert_nilai_terbobot($insert);
+					$this->session->set_flashdata('info', 'data berhasil di hitung!');				
+					redirect('admin/nilai_topsis');
+				}
+
+				//var_dump($nilai_bobot);
+	
+
+			}
+
+			public function hitung_topsis_v(){
+				$id_guru 			= $this->input->post('id_guru');
+				$get_nilai 			= $this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru))->row();
+				// nilai A+
+				$a_plus['1'] 		=$this->admin_models->get_max_c1()->row();
+				$a_plus['2'] 		=$this->admin_models->get_max_c2()->row();
+				$a_plus['3'] 		=$this->admin_models->get_max_c3()->row();
+				$a_plus['4'] 		=$this->admin_models->get_max_c4()->row();
+				$a_plus['5'] 		=$this->admin_models->get_max_c5()->row();
+
+				// nilai A -
+				$a_min['1'] 		=$this->admin_models->get_max_c1()->row();
+				$a_min['2'] 		=$this->admin_models->get_max_c2()->row();
+				$a_min['3'] 		=$this->admin_models->get_max_c3()->row();
+				$a_min['4'] 		=$this->admin_models->get_max_c4()->row();
+				$a_min['5'] 		=$this->admin_models->get_max_c5()->row();
+				// alternatif
+				//$d_plus = sqrt(pow($a_plus['c1'] - $get_nilai->result_c1,2));
+
+				$d_plus = sqrt( pow($a_plus['1'] - $get_nilai->result_c1,2) + pow($a_plus['2'] - $get_nilai->result_c2,2) + pow($a_plus['3'] - $get_nilai->result_c3,2) +pow($a_plus['4'] - $get_nilai->result_c4,2) +pow($a_plus['5'] - $get_nilai->result_c5,2) ) ;
+
+				$d_min = sqrt( pow($a_min['1'] - $get_nilai->result_c1,2) + pow($a_min['2'] - $get_nilai->result_c2,2) + pow($a_min['3'] - $get_nilai->result_c3,2) +pow($a_min['4'] - $get_nilai->result_c4,2) +pow($a_min['5'] - $get_nilai->result_c5,2) ) ;
+
+				//var_dump($d_plus);die();
+				$nilai_v = $d_min/($d_min+$d_plus);
+				//var_dump($nilai_v);
+				if($this->admin_models->update_v($id_guru,$nilai_v)){
+					$this->session->set_flashdata('info', 'Nilai V berhasil di tambah');				
+					redirect('admin/nilai_topsis');
+					
+
+				}else{
+					//$this->admin_models->insert_nilai_terbobot($insert);
+					$this->session->set_flashdata('danger', 'nilai v gagal dihitung!');				
+					redirect('admin/nilai_topsis');
+				}
 
 			}
 
 			public function hitung_saw()
 			{
 				$no_peserta 			= $this->input->post('no_peserta');
-				$max_kriteria['k_1'] 	= $this->admin_models->get_max_penilian('1')->row();
-				$max_kriteria['k_2'] 	= $this->admin_models->get_max_penilian('2')->row();
-				$max_kriteria['k_3'] 	= $this->admin_models->get_max_penilian('3')->row();
+				$id_guru 				= $this->db->get_where('tb_guru',array('nik'=>$no_peserta))->row();
+				
+				
+					
+				$nilai1= $this->admin_models->get_nilai_peserta($id_guru->nik,'1')->row();
+				$nilai2= $this->admin_models->get_nilai_peserta($id_guru->nik,'2')->row();
+				$nilai3= $this->admin_models->get_nilai_peserta($id_guru->nik,'3')->row();
+				$nilai4= $this->admin_models->get_nilai_peserta($id_guru->nik,'4')->row();
+				$nilai5= $this->admin_models->get_nilai_peserta($id_guru->nik,'5')->row();
 
-				$min_kriteria['mink_4'] = $this->admin_models->get_min_penilaian('4')->row();
-				$min_kriteria['mink_5'] = $this->admin_models->get_min_penilaian('5')->row();
-				$min_kriteria['mink_6'] = $this->admin_models->get_min_penilaian('6')->row();
+				$hs_nilai1 = $nilai1->angka_penilaian / 5;
+				$hs_nilai2 = $nilai2->angka_penilaian / 5;
+				$hs_nilai3 = $nilai3->angka_penilaian / 5;
+				$hs_nilai4 = $nilai4->angka_penilaian / 5;
+				$hs_nilai5 = $nilai5->angka_penilaian / 5;
 
-				$nilai['attribut_1'] 	= $this->admin_models->get_nilai_warga($no_peserta,'1')->row();
-				$nilai['attribut_2'] 	= $this->admin_models->get_nilai_warga($no_peserta,'2')->row();
-				$nilai['attribut_3'] 	= $this->admin_models->get_nilai_warga($no_peserta,'3')->row();
-				$nilai['attribut_4'] 	= $this->admin_models->get_nilai_warga($no_peserta,'4')->row();
-				$nilai['attribut_5'] 	= $this->admin_models->get_nilai_warga($no_peserta,'5')->row();
-				$nilai['attribut_6'] 	= $this->admin_models->get_nilai_warga($no_peserta,'6')->row();
+				$v = (3*$hs_nilai1)+(4*$hs_nilai2)+(5*$hs_nilai3)+(5*$hs_nilai4)+(5*$hs_nilai5);
 
-				$h1	 	= $nilai['attribut_1']->angka_penilaian / $max_kriteria['k_1']->angka_penilaian;
-				$h2	 	= $nilai['attribut_2']->angka_penilaian / $max_kriteria['k_2']->angka_penilaian;
-				$h3	 	= $nilai['attribut_3']->angka_penilaian / $max_kriteria['k_3']->angka_penilaian;
+				
 
-				$h4 	= $min_kriteria['mink_4']->angka_penilaian / $nilai['attribut_4']->angka_penilaian;
-				$h5 	= $min_kriteria['mink_5']->angka_penilaian / $nilai['attribut_5']->angka_penilaian;
-				$h6 	= $min_kriteria['mink_6']->angka_penilaian / $nilai['attribut_6']->angka_penilaian;
 
-				$final 	= $h1*$nilai['attribut_1']->nilai_bobot + $h2*$nilai['attribut_2']->nilai_bobot + $h3*$nilai['attribut_3']->nilai_bobot + $h4*$nilai['attribut_4']->nilai_bobot + $h4*$nilai['attribut_5']->nilai_bobot + $h6*$nilai['attribut_6']->nilai_bobot ;
-
-				$data 	= array("no_peserta" => $no_peserta,"nilai_saw"=>$final);
-				if($this->db->get_where('tb_hasil',array('no_peserta'=>$no_peserta))->row()){
-					$this->session->set_flashdata('danger', 'Peserta Sudah Di Hitung');				
+				if($this->admin_models->update_saw($id_guru->id,$v)){
+					$this->session->set_flashdata('info', 'Nilai V berhasil di tambah');				
 					redirect('admin/nilai_saw');
+					
 
 				}else{
-					$this->admin_models->insert_nilai_saw($data);
-					$this->session->set_flashdata('info', 'data berhasil di hitung!');				
+					//$this->admin_models->insert_nilai_terbobot($insert);
+					$this->session->set_flashdata('danger', 'nilai v gagal dihitung!');				
 					redirect('admin/nilai_saw');
 				}
 				
@@ -580,7 +701,7 @@ class Admin extends CI_Controller
 					$guru 		= $this->db->get_where('tb_guru', array('date_input' =>$date))->row();
 					$no_peserta = $guru->nik;
 					
-					for($i=1; $i<=6 ;$i++){
+					for($i=1; $i<=5 ;$i++){
 						$p['penilaian_'.$i]	= $this->db->get_where('tb_attribut', array('id' =>$a['atribut_'.$i]))->row();
 						$b['bobot_'.$i]		= $this->db->get_where('tb_kriteria', array('kd_kriteria' =>$p['penilaian_'.$i]->id_kriteria))->row();
 						$data2 		= array(
@@ -654,7 +775,7 @@ class Admin extends CI_Controller
 					$guru 		= $this->db->get_where('tb_guru', array('date_input' =>$date))->row();
 					$nik = $guru->nik;
 					
-					for($i=1; $i<=6 ;$i++){
+					for($i=1; $i<=3 ;$i++){
 						$p['penilaian_'.$i]	= $this->db->get_where('tb_attribut', array('id' =>$a['atribut_'.$i]))->row();
 						$b['bobot_'.$i]		= $this->db->get_where('tb_kriteria', array('kd_kriteria' =>$p['penilaian_'.$i]->id_kriteria))->row();
 						$data2 		= array(

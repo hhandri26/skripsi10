@@ -252,6 +252,101 @@
 			$this->db->where('id',$id_guru);
 			return $this->db->update('tb_guru',$data);
 		}
+
+		public function get_nilai_peserta($no_peserta,$no){
+			$this->db->select('a.angka_penilaian, a.nilai_bobot');
+			$this->db->where('a.no_peserta',$no_peserta);
+			$this->db->where('a.kd_kriteria',$no);
+			$this->db->from('tb_penilaian as a');
+			return $this->db->get();
+		}
+
+		public function get_nilai_topsis(){
+			$this->db->select('a.*,b.nama_guru');
+			$this->db->join('tb_guru as b','a.id_guru = b.id','left' );
+			$this->db->from('tb_hasil_topsis as a');
+			$this->db->order_by('nilai_v','DESC');
+			return $this->db->get();
+
+		}
+
+		public function insert_nilai_terbobot($data){
+			return $this->db->insert('tb_hasil_topsis',$data);
+		}
+
+		public function get_max_c1(){
+			$this->db->select_max('result_c1');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_max_c2(){
+			$this->db->select_max('result_c2');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_max_c3(){
+			$this->db->select_max('result_c3');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_max_c4(){
+			$this->db->select_max('result_c4');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_max_c5(){
+			$this->db->select_max('result_c5');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+
+		public function get_min_c1(){
+			$this->db->select_min('result_c1');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_min_c2(){
+			$this->db->select_min('result_c2');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_min_c3(){
+			$this->db->select_min('result_c3');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_min_c4(){
+			$this->db->select_min('result_c4');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+		public function get_min_c5(){
+			$this->db->select_min('result_c5');
+			$this->db->from('tb_hasil_topsis');
+			return $this->db->get();
+		}
+
+		public function update_v($id,$value){
+			$this->db->where('id_guru',$id);
+			return $this->db->update('tb_hasil_topsis',array('nilai_v'=>$value));
+
+
+		}
+
+		public function update_saw($id,$value){
+			$this->db->where('id_guru',$id);
+			return $this->db->update('tb_hasil_topsis',array('nilai_saw'=>$value));
+		}
+
+		public function get_nilai_saw2(){
+			$this->db->select('a.*,b.nama_guru');
+			$this->db->join('tb_guru as b','a.id_guru = b.id','left' );
+			$this->db->where('a.nilai_saw is NOT NULL', NULL, FALSE);
+			$this->db->from('tb_hasil_topsis as a');
+			$this->db->order_by('nilai_saw','DESC');
+			return $this->db->get();
+
+		}
 	
 
 

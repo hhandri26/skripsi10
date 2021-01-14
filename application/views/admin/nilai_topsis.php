@@ -6,14 +6,13 @@
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                 <h4 class="modal-title">Hitung Nilai V</h4>
             </div>
-            <form class="form-horizontal" action="<?php echo base_url('admin/hitung_wp_v')?>" method="post" enctype="multipart/form-data" role="form">
+            <form class="form-horizontal" action="<?php echo base_url('admin/hitung_topsis_v')?>" method="post" enctype="multipart/form-data" role="form">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-lg-4 col-sm-4 control-label">Nama Warga</label>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="nama" name="nama">
-                            <input type="hidden" class="form-control" id="no_peserta" name="no_peserta">
-                            <input type="hidden" class="form-control" id="nilai_s" name="nilai_s">
+                            <input type="text" class="form-control" id="nama_guru" name="nama_guru">
+                            <input type="hidden" class="form-control" id="id_guru" name="id_guru">
                         </div>
                     </div>
                 </div>
@@ -26,13 +25,13 @@
     </div>
 </div>
 <div class="box-body">
-<form class="form-horizontal" action="<?php echo base_url('admin/hitung_wp')?>" method="post" enctype="multipart/form-data" role="form">
+<form class="form-horizontal" action="<?php echo base_url('admin/hitung_topsis')?>" method="post" enctype="multipart/form-data" role="form">
     <div class="form-group">
         <div class="col-lg-8">
             <select class="form-control" name="no_peserta" require>
-            <option value="">- Pilih Warga -</option>
-                <?php foreach ($warga as $row){?>
-                    <option value="<?php echo $row->no_peserta;?>"><?php echo $row->nama;?></option>
+            <option value="">- Pilih Guru -</option>
+                <?php foreach ($guru as $row){?>
+                    <option value="<?php echo $row->nik;?>"><?php echo $row->nama_guru;?></option>
                 <?php }?>
             </select>
         </div>
@@ -46,33 +45,38 @@
         <thead>
             <tr>
                 <th>Rangking</th>
-                <th>Kode A</th>
-                <th>Nama</th>
-                <th>Nilai S</th>
+                <th>Nama Guru</th>
+                <th>Kehadiran</th>
+                <th>Sikap</th>
+                <th>Disiplin</th>
+                <th>Kemampuan Mengajar</th>
+                <th>Tanggung Jawab</th>
                 <th>Nilai V</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
         <?php $no=1; foreach ($table as $row ) {?>
             <tr>
             <td><?php echo $no++ ;?></td>
-            <td><?php echo 'A'.$row->no_peserta ;?></td>
-            <td><?php echo $row->nama ;?></td>
-            <td><?php echo $row->nilai_s ;?></td>
-            <td><?php echo $row->nilai_v ;?></td>
+            <td><?php echo $row->nama_guru ;?></td>
+            <td><?php echo $row->result_c1 ;?></td>
+            <td><?php echo $row->result_c2 ;?></td>
+            <td><?php echo $row->result_c3 ;?></td>
+            <td><?php echo $row->result_c4 ;?></td>
+            <td><?php echo $row->result_c5 ;?></td>
             <td>
                 <?php if($row->nilai_v==''){?>
                 <a  href                 ="javascript:;"
-                    data-nama            ="<?php echo $row->nama ?>"
-                    data-no_peserta      ="<?php echo $row->no_peserta ?>"
-                    data-nilai_s         ="<?php echo $row->nilai_s ?>"
+                    data-nama_guru            ="<?php echo $row->nama_guru ?>"
+                    data-id_guru      ="<?php echo $row->id_guru ?>"
                     data-toggle          ="modal"
                     data-target          ="#edit-data"
                     class="show-modal btn btn-info btn-sm">
                     <i class="glyphicon glyphicon-pencil"></i> 
                 </a>
-                <?php }?>
+                <?php }else{?>
+                <?php echo $row->nilai_v;?>
+                <?php };?>
             </td>
             </tr>
         <?php } ?>
@@ -86,9 +90,8 @@
         $('#edit-data').on('show.bs.modal', function (event) {
             var div     = $(event.relatedTarget)
             var modal   = $(this)
-            modal.find('#nama').attr("value",div.data('nama'));
-            modal.find('#no_peserta').attr("value",div.data('no_peserta'));
-            modal.find('#nilai_s').attr("value",div.data('nilai_s'));
+            modal.find('#nama_guru').attr("value",div.data('nama_guru'));
+            modal.find('#id_guru').attr("value",div.data('id_guru'));
            
         });
     });

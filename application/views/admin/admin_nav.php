@@ -65,8 +65,8 @@
         <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_saw')? $active :""; ?>>
           <a href="<?php echo base_url('admin/nilai_saw');?>"><i class="fa fa-ellipsis-v"></i>Penilaian SAW</a>
         </li>
-        <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_wp')? $active :""; ?>>
-          <a href="<?php echo base_url('admin/nilai_wp');?>"><i class="fa fa-ellipsis-v"></i>Penilaian Topsis</a>
+        <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_topsis')? $active :""; ?>>
+          <a href="<?php echo base_url('admin/nilai_topsis');?>"><i class="fa fa-ellipsis-v"></i>Penilaian Topsis</a>
         </li>
       </ul>
     </li>

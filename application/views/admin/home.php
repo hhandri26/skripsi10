@@ -28,13 +28,13 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo base_url('assets/img/avatar-33.jpg');?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Naeni Sawundari</span>
+              <span class="hidden-xs">IKA Mulyani</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="<?php echo base_url('assets/img/avatar-33.jpg');?>" class="img-circle" alt="User Image">
-                <p>Naeni Sawundari<small>2015141203</small></p>
+                <p>IKA Mulyani<small>2015141203</small></p>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
