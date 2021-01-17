@@ -15,7 +15,8 @@
 					foreach ($querry->result() as $row) 
 					{
 						$sess = array('username' => $row->username,
-									  'password' => $row->password);
+									  'password' => $row->password,
+									  'level' 	=>'admin');
 						$this->session->set_userdata($sess);
 						$this->session->set_flashdata('info', 'login sukses');
 						redirect('admin');
@@ -25,6 +26,30 @@
 						$this->session->set_flashdata('info', 'username dan password salah');
 						redirect('login');
 					} 
+
+		}
+		public function getloginguru($username, $password)
+		{
+			$this->db->where('nik', $username);
+			$this->db->where('password', $password);
+			$querry 	= $this->db->get('tb_guru');
+			if($querry->num_rows()>0)
+				{
+					foreach ($querry->result() as $row) 
+					{
+						$sess = array('username' => $row->nama_guru,
+									  'password' => $row->password,
+									  'level' 	=>'guru'
+									);
+						$this->session->set_userdata($sess);
+						$this->session->set_flashdata('info', 'login sukses');
+						redirect('admin');
+					}
+				}else 
+					{
+						$this->session->set_flashdata('info', 'username dan password salah');
+						redirect('login');
+					}
 
 		}
 
@@ -270,6 +295,14 @@
 
 		}
 
+		public function get_nilai_report(){
+			$this->db->select('a.*,b.nama_guru');
+			$this->db->join('tb_guru as b','a.id_guru = b.id','left' );
+			$this->db->from('tb_hasil_topsis as a');
+			return $this->db->get();
+
+		}
+
 		public function insert_nilai_terbobot($data){
 			return $this->db->insert('tb_hasil_topsis',$data);
 		}
@@ -326,16 +359,16 @@
 			return $this->db->get();
 		}
 
-		public function update_v($id,$value){
+		public function update_v($id,$value,$time){
 			$this->db->where('id_guru',$id);
-			return $this->db->update('tb_hasil_topsis',array('nilai_v'=>$value));
+			return $this->db->update('tb_hasil_topsis',array('nilai_v'=>$value,'waktu_topsis' =>$time));
 
 
 		}
 
-		public function update_saw($id,$value){
+		public function update_saw($id,$value,$time){
 			$this->db->where('id_guru',$id);
-			return $this->db->update('tb_hasil_topsis',array('nilai_saw'=>$value));
+			return $this->db->update('tb_hasil_topsis',array('nilai_saw'=>$value,'waktu_wp'=>$time));
 		}
 
 		public function get_nilai_saw2(){

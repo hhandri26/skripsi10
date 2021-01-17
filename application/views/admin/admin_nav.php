@@ -15,6 +15,7 @@
       </ul>
     </li>
     
+    <?php if($this->session->userdata('level') == 'admin'){;?>
 
     <li class="treeview <?php echo ($nav_top == 'master')? $class :""; ?>">
       <a href="#">
@@ -70,6 +71,38 @@
         </li>
       </ul>
     </li>
+    <li class="treeview <?php echo ($nav_top == 'laporan')? $class :""; ?>">
+      <a href="#">
+        <i class="fa fa-users"></i>
+        <span>Laporan</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan')? $active :""; ?>>
+          <a href="<?php echo base_url('admin/laporan');?>"><i class="fa fa-ellipsis-v"></i>laporan</a>
+        </li>
+       
+      </ul>
+    </li>
+    <?php }else{ ;?>
+      <li class="treeview <?php echo ($nav_top == 'laporan')? $class :""; ?>">
+        <a href="#">
+          <i class="fa fa-users"></i>
+          <span>Laporan</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan');?>"><i class="fa fa-ellipsis-v"></i>laporan</a>
+          </li>
+        
+        </ul>
+      </li>
+    <?php };?>
 
     
 

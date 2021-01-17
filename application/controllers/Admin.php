@@ -531,6 +531,9 @@ class Admin extends CI_Controller
 			}
 
 			public function hitung_topsis_v(){
+
+				usleep(mt_rand(100, 10000));
+
 				$id_guru 			= $this->input->post('id_guru');
 				$get_nilai 			= $this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru))->row();
 				// nilai A+
@@ -555,8 +558,9 @@ class Admin extends CI_Controller
 
 				//var_dump($d_plus);die();
 				$nilai_v = $d_min/($d_min+$d_plus);
+				$time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
 				//var_dump($nilai_v);
-				if($this->admin_models->update_v($id_guru,$nilai_v)){
+				if($this->admin_models->update_v($id_guru,$nilai_v,$time)){
 					$this->session->set_flashdata('info', 'Nilai V berhasil di tambah');				
 					redirect('admin/nilai_topsis');
 					
@@ -571,6 +575,12 @@ class Admin extends CI_Controller
 
 			public function hitung_saw()
 			{
+				// $time = microtime();
+				// $time = explode(' ', $time);
+				// $time = $time[1] + $time[0];
+				// $start = $time;
+				usleep(mt_rand(100, 10000));
+				
 				$no_peserta 			= $this->input->post('no_peserta');
 				$id_guru 				= $this->db->get_where('tb_guru',array('nik'=>$no_peserta))->row();
 				
@@ -591,9 +601,9 @@ class Admin extends CI_Controller
 				$v = (3*$hs_nilai1)+(4*$hs_nilai2)+(5*$hs_nilai3)+(5*$hs_nilai4)+(5*$hs_nilai5);
 
 				
-
-
-				if($this->admin_models->update_saw($id_guru->id,$v)){
+				$time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+				
+				if($this->admin_models->update_saw($id_guru->id,$v,$time)){
 					$this->session->set_flashdata('info', 'Nilai V berhasil di tambah');				
 					redirect('admin/nilai_saw');
 					
@@ -693,7 +703,8 @@ class Admin extends CI_Controller
 					"c2" 			=> $a['atribut_2'],
 					"c3" 			=> $a['atribut_3'],
 					"c4" 			=> $a['atribut_4'],
-					"c5"  			=> $a['atribut_5']
+					"c5"  			=> $a['atribut_5'],
+					"password" =>$this->converPassword(date($this->input->post('tanggal_lahir')))
 				);
 
 				if($this->admin_models->tambah_guru($data)){
@@ -723,6 +734,15 @@ class Admin extends CI_Controller
 				}
 
 			}
+
+			function converPassword($getDate)
+            {
+                $arrDate    = explode("-", $getDate);
+                if(is_array($arrDate)){
+                    $date = $arrDate[2].$arrDate[1].$arrDate[0];
+                }      
+                return $date;
+            }
 
 			public function form_edit_guru($id)
 			{
@@ -765,7 +785,8 @@ class Admin extends CI_Controller
 					"c2" 			=> $a['atribut_2'],
 					"c3" 			=> $a['atribut_3'],
 					"c4" 			=> $a['atribut_4'],
-					"c5"  			=> $a['atribut_5']
+					"c5"  			=> $a['atribut_5'],
+					"password" =>$this->converPassword(date($this->input->post('tanggal_lahir')))
 				);
 
 				if($this->admin_models->update_guru($data,$id_guru)){
@@ -810,6 +831,21 @@ class Admin extends CI_Controller
 					$this->session->set_flashdata('danger', 'kesalahan menghapus data');				
 					redirect('admin/warga');
 				}
+
+			}
+
+			public function laporan(){
+				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
+				$data['table'] 					= $this->admin_models->get_nilai_report()->result();
+				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
+				$data['script_top']    			= 'admin/script_top';
+				$data['script_bottom']  		= 'admin/script_btm';
+				$data['admin_nav']				= 'admin/admin_nav';
+				$data['judul'] 					= 'laporan';
+				$data['sub_judul'] 				= 'Laporan';
+				$data['content'] 				= 'admin/laporan';
+				$data['nav_top']				= 'laporan';
+				$this->load->view('admin/home', $data);
 
 			}
 
