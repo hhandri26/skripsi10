@@ -4,9 +4,25 @@
 <!-- datatable -->
 <!-- Datatable js -->
 <script src="<?php echo base_url();?>assets/datatables/jquery.dataTables.min.js"></script>
+
 <script src="<?php echo base_url();?>assets/datatables/dataTables.bootstrap.js"></script>
+
 <script src="<?php echo base_url();?>assets/datatables/dataTables.buttons.min.js"></script>
+
 <script src="<?php echo base_url();?>assets/datatables/buttons.bootstrap.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/jszip.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/pdfmake.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/vfs_fonts.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/buttons.html5.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/buttons.print.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/datatables/dataTables.keyTable.min.js"></script>
+
 <script src="<?php echo base_url();?>assets/datatables/dataTables.responsive.min.js"></script>
 <script src="<?php echo base_url();?>assets/datatables/responsive.bootstrap.min.js"></script>
 <script src="<?php echo base_url();?>assets/datatables/dataTables.scroller.min.js"></script>

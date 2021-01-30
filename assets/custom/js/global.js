@@ -36,5 +36,11 @@ $(function () {
     $('#example2').DataTable()
     $('#example3').DataTable()
     $('#example4').DataTable()
+    $('#export_table').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel'
+        ]
+    } );
   })
 

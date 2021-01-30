@@ -80,9 +80,15 @@
         </span>
       </a>
       <ul class="treeview-menu">
-        <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan')? $active :""; ?>>
-          <a href="<?php echo base_url('admin/laporan');?>"><i class="fa fa-ellipsis-v"></i>laporan</a>
-        </li>
+      <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_saw')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_saw');?>"><i class="fa fa-ellipsis-v"></i>Laporan SAW</a>
+          </li>
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_topsis')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_topsis');?>"><i class="fa fa-ellipsis-v"></i>Laporan Topsis</a>
+          </li>
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_waktu')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_waktu');?>"><i class="fa fa-ellipsis-v"></i>Laporan Waktu</a>
+          </li>
        
       </ul>
     </li>
@@ -96,8 +102,14 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan')? $active :""; ?>>
-            <a href="<?php echo base_url('admin/laporan');?>"><i class="fa fa-ellipsis-v"></i>laporan</a>
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_saw')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_saw');?>"><i class="fa fa-ellipsis-v"></i>Laporan SAW</a>
+          </li>
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_topsis')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_topsis');?>"><i class="fa fa-ellipsis-v"></i>Laporan Topsis</a>
+          </li>
+          <li <?php echo (basename($_SERVER['PHP_SELF']) == 'laporan_waktu')? $active :""; ?>>
+            <a href="<?php echo base_url('admin/laporan_waktu');?>"><i class="fa fa-ellipsis-v"></i>Laporan Waktu</a>
           </li>
         
         </ul>

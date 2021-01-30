@@ -1,7 +1,7 @@
 <form class="form-horizontal" action="<?php echo base_url('admin/edit_guru')?>" method="post" enctype="multipart/form-data" role="form">
         <div class="modal-body">
             <div class="form-group">
-                <label class="col-lg-4 col-sm-4 control-label">NIK</label>
+                <label class="col-lg-4 col-sm-4 control-label">NIP</label>
                 <div class="col-lg-8">
                     <input type="number" class="form-control" id="nik" name="nik" value="<?php echo $edit->nik;?>">
                 </div>

@@ -9,7 +9,7 @@
 	<body class="hold-transition login-page">
 		<div class="login-box">
 			<div class="login-logo" style="font-size:15px !important">
-				<a href=""><b>PERBANDINGAN IMPLEMENTASI SISTEM PENDUKUNG KEPUTUSAN METODE SAW Dengan TOPSIS DALAM PEMILIHAN GURU TERBAIK</b></a>
+				<a href=""><b>PERBANDINGAN IMPLEMENTASI SISTEM PENDUKUNG KEPUTUSAN METODE SAW DENGAN TOPSIS DALAM PEMILIHAN GURU TERBAIK</b></a>
 				<img src="">
 			</div>
 		  	<div class="login-box-body">

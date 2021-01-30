@@ -27,14 +27,14 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo base_url('assets/img/avatar-33.jpg');?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">IKA MULYANTI</span>
+              <img src="<?php echo base_url();?>/assets/img/logo.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs"><?php echo $this->session->userdata('username');?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo base_url('assets/img/avatar-33.jpg');?>" class="img-circle" alt="User Image">
-                <p>IKA MULYANTI<small>2016140169</small></p>
+                <img src="<?php echo base_url();?>/assets/img/logo.jpg" class="img-circle" alt="User Image">
+                <p><?php echo $this->session->userdata('username');?></p>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">

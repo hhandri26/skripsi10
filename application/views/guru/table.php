@@ -150,18 +150,76 @@
     </div>
 </div>
 
+<!-- modal view -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="view-data" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">Lihat Data</h4>
+            </div>
+            <form class="form-horizontal" action="#" method="post" enctype="multipart/form-data" role="form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">NIK</label>
+                        <div class="col-lg-8">
+                            <input type="number" class="form-control" id="nik" name="nik" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Nama</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="nama_guru" name="nama_guru" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Tempat Lahir</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="tempat_tanggal_lahir" name="tempat_tanggal_lahir" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Jenis Kelamin</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin" readonly="">
+                           
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Tanggal Lahir</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Alamat</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="alamat" name="alamat" readonly="">
+                        </div>
+                    </div>
+                  
+                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"> Batal</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="box-body">
     <table id="example1" class="table table-bordered table-striped">
         <thead>
             <tr>
             <th>No</th>
-            <th>Nik</th>
+            <th>Nip</th>
             <th>Nama</th>
             <th>Tempat Lahir</th>
             <th>Tanggal lahir</th>
             <th>alamat</th>
             
-            <th>Aksi</th>
+            <th style="width:100px">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -177,6 +235,20 @@
             <td>
                 <a href ="<?php echo base_url('admin/form_edit_guru/'.$row->id);?>" class="btn btn-info btn-sm">
                     <i class="glyphicon glyphicon-pencil"></i> 
+                </a>
+
+                <a  href                        ="javascript:;"
+                    data-id                     ="<?php echo $row->id ?>"
+                    data-nik                    ="<?php echo $row->nik ?>"
+                    data-nama_guru              ="<?php echo $row->nama_guru ?>"
+                    data-tempat_tanggal_lahir   ="<?php echo $row->tempat_tanggal_lahir ?>"
+                    data-jenis_kelamin          ="<?php echo $row->jenis_kelamin ?>"
+                    data-tanggal_lahir          ="<?php echo $row->tanggal_lahir ?>"
+                    data-alamat                 ="<?php echo $row->alamat ?>"
+                    data-toggle                 ="modal"
+                    data-target                 ="#view-data"
+                    class="show-modal btn btn-info btn-sm">
+                    <i class="fa fa-eye"></i> 
                 </a>
 
                 <a  href                 ="javascript:;"
@@ -201,6 +273,20 @@
             var modal   = $(this)
             modal.find('#id').attr("value",div.data('id'));
             modal.find('#nama_guru').attr("value",div.data('nama_guru'));
+           
+           
+        });
+
+        $('#view-data').on('show.bs.modal', function (event) {
+            var div     = $(event.relatedTarget)
+            var modal   = $(this)
+            modal.find('#id').attr("value",div.data('id'));
+            modal.find('#nik').attr("value",div.data('nik'));
+            modal.find('#nama_guru').attr("value",div.data('nama_guru'));
+            modal.find('#tempat_tanggal_lahir').attr("value",div.data('tempat_tanggal_lahir'));
+            modal.find('#jenis_kelamin').attr("value",div.data('jenis_kelamin'));
+            modal.find('#tanggal_lahir').attr("value",div.data('tanggal_lahir'));
+            modal.find('#alamat').attr("value",div.data('alamat'));
            
            
         });

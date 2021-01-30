@@ -10,6 +10,7 @@ class Admin extends CI_Controller
 				$this->load->library('form_validation');
 				$this->load->model('admin_models');
 				$this->load->model('security_models');
+				$this->load->library('pdf');
 				$this->security_models->get_security();
 
 			}
@@ -535,7 +536,9 @@ class Admin extends CI_Controller
 				usleep(mt_rand(100, 10000));
 
 				$id_guru 			= $this->input->post('id_guru');
-				$get_nilai 			= $this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru))->row();
+				$field = $this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru->id))->row();
+				if(is_null($field->nilai_v)){
+					$get_nilai 			= $this->db->get_where('tb_hasil_topsis',array('id_guru'=>$id_guru))->row();
 				// nilai A+
 				$a_plus['1'] 		=$this->admin_models->get_max_c1()->row();
 				$a_plus['2'] 		=$this->admin_models->get_max_c2()->row();
@@ -544,20 +547,32 @@ class Admin extends CI_Controller
 				$a_plus['5'] 		=$this->admin_models->get_max_c5()->row();
 
 				// nilai A -
-				$a_min['1'] 		=$this->admin_models->get_max_c1()->row();
-				$a_min['2'] 		=$this->admin_models->get_max_c2()->row();
-				$a_min['3'] 		=$this->admin_models->get_max_c3()->row();
-				$a_min['4'] 		=$this->admin_models->get_max_c4()->row();
-				$a_min['5'] 		=$this->admin_models->get_max_c5()->row();
+				$a_min['1'] 		=$this->admin_models->get_min_c1()->row();
+				$a_min['2'] 		=$this->admin_models->get_min_c2()->row();
+				$a_min['3'] 		=$this->admin_models->get_min_c3()->row();
+				$a_min['4'] 		=$this->admin_models->get_min_c4()->row();
+				$a_min['5'] 		=$this->admin_models->get_min_c5()->row();
 				// alternatif
 				//$d_plus = sqrt(pow($a_plus['c1'] - $get_nilai->result_c1,2));
 
-				$d_plus = sqrt( pow($a_plus['1'] - $get_nilai->result_c1,2) + pow($a_plus['2'] - $get_nilai->result_c2,2) + pow($a_plus['3'] - $get_nilai->result_c3,2) +pow($a_plus['4'] - $get_nilai->result_c4,2) +pow($a_plus['5'] - $get_nilai->result_c5,2) ) ;
+				$d_plus = sqrt( 
+								pow($a_plus['1']->result_c1 - $get_nilai->result_c1,2) + 
+								pow($a_plus['2']->result_c2 - $get_nilai->result_c2,2) + 
+								pow($a_plus['3']->result_c3 - $get_nilai->result_c3,2) +
+								pow($a_plus['4']->result_c4 - $get_nilai->result_c4,2) +
+								pow($a_plus['5']->result_c5 - $get_nilai->result_c5,2) 
+							) ;
 
-				$d_min = sqrt( pow($a_min['1'] - $get_nilai->result_c1,2) + pow($a_min['2'] - $get_nilai->result_c2,2) + pow($a_min['3'] - $get_nilai->result_c3,2) +pow($a_min['4'] - $get_nilai->result_c4,2) +pow($a_min['5'] - $get_nilai->result_c5,2) ) ;
+				$d_min = sqrt( 
+								pow($a_min['1']->result_c1 - $get_nilai->result_c1,2) + 
+								pow($a_min['2']->result_c2 - $get_nilai->result_c2,2) + 
+								pow($a_min['3']->result_c3 - $get_nilai->result_c3,2) +
+								pow($a_min['4']->result_c4 - $get_nilai->result_c4,2) +
+								pow($a_min['5']->result_c5 - $get_nilai->result_c5,2) 
+							) ;
 
-				//var_dump($d_plus);die();
-				$nilai_v = $d_min/($d_min+$d_plus);
+				//var_dump($a_plus['2']->result_c2 .'-'. $get_nilai->result_c2);die();
+				$nilai_v = $d_min / ($d_min + $d_plus);
 				$time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
 				//var_dump($nilai_v);
 				if($this->admin_models->update_v($id_guru,$nilai_v,$time)){
@@ -570,6 +585,13 @@ class Admin extends CI_Controller
 					$this->session->set_flashdata('danger', 'nilai v gagal dihitung!');				
 					redirect('admin/nilai_topsis');
 				}
+					
+
+				}else{
+					$this->session->set_flashdata('danger', 'Guru Sudah Di Hitung');				
+					redirect('admin/nilai_topsis');
+				}
+				
 
 			}
 
@@ -675,7 +697,7 @@ class Admin extends CI_Controller
 				$data['script_top']    			= 'admin/script_top';
 				$data['script_bottom']  		= 'admin/script_btm';
 				$data['admin_nav']				= 'admin/admin_nav';
-				$data['judul'] 					= 'Warga';
+				$data['judul'] 					= 'Guru';
 				$data['sub_judul'] 				= 'Tabel Guru';
 				$data['content'] 				= 'guru/table';
 				$data['nav_top']				= 'warga';
@@ -834,7 +856,7 @@ class Admin extends CI_Controller
 
 			}
 
-			public function laporan(){
+			public function laporan_waktu(){
 				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
 				$data['table'] 					= $this->admin_models->get_nilai_report()->result();
 				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
@@ -847,6 +869,53 @@ class Admin extends CI_Controller
 				$data['nav_top']				= 'laporan';
 				$this->load->view('admin/home', $data);
 
+			}
+
+			public function laporan_saw(){
+				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
+				$data['table'] 					= $this->admin_models->get_nilai_report()->result();
+				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
+				$data['script_top']    			= 'admin/script_top';
+				$data['script_bottom']  		= 'admin/script_btm';
+				$data['admin_nav']				= 'admin/admin_nav';
+				$data['judul'] 					= 'laporan';
+				$data['sub_judul'] 				= 'Laporan';
+				$data['content'] 				= 'admin/laporan_saw';
+				$data['nav_top']				= 'laporan';
+				$this->load->view('admin/home', $data);
+
+			}
+
+			public function laporan_topsis(){
+				$data['admin']					= $this->db->get_where('admin', array('id' => 1))->row();
+				$data['table'] 					= $this->admin_models->get_nilai_report()->result();
+				$data['guru'] 					= $this->admin_models->get_all_guru()->result();
+				$data['script_top']    			= 'admin/script_top';
+				$data['script_bottom']  		= 'admin/script_btm';
+				$data['admin_nav']				= 'admin/admin_nav';
+				$data['judul'] 					= 'laporan';
+				$data['sub_judul'] 				= 'Laporan';
+				$data['content'] 				= 'admin/laporan_topsis';
+				$data['nav_top']				= 'laporan';
+				$this->load->view('admin/home', $data);
+
+			}
+			public function cetak($type){
+				if($type=='topsis'){
+					$data['table']		=$this->admin_models->get_nilai_report()->result();
+					$html = $this->load->view('cetak/topsis', $data, true);
+
+				}elseif($type=='saw'){
+					$data['table']		=$this->admin_models->get_nilai_report()->result();
+					$html = $this->load->view('cetak/saw', $data, true);
+					
+
+				}elseif($type=='waktu'){
+					$data['table']		=$this->admin_models->get_nilai_report()->result();
+					$html = $this->load->view('cetak/waktu', $data, true);
+
+				}			
+				$this->pdf->generate($html,'contoh');
 			}
 
 		}
