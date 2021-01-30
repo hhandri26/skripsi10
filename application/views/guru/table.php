@@ -252,7 +252,7 @@
                 </a>
 
                 <a  href                 ="javascript:;"
-                    data-id              ="<?php echo $row->id ?>"
+                    data-id              ="<?php echo $row->nik ?>"
                     data-nama_guru            ="<?php echo $row->nama_guru ?>"
                     data-toggle          ="modal"
                     data-target          ="#delete-data"

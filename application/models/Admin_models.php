@@ -277,6 +277,10 @@
 			$this->db->where('id',$id_guru);
 			return $this->db->update('tb_guru',$data);
 		}
+		public function hapus_guru($id){
+			$this->db->where('nik',$id);
+			return $this->db->delete('tb_guru');
+		}
 
 		public function get_nilai_peserta($no_peserta,$no){
 			$this->db->select('a.angka_penilaian, a.nilai_bobot');

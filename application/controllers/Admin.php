@@ -844,14 +844,14 @@ class Admin extends CI_Controller
 			public function delete_guru()
 			{
 				$id 	= $this->input->post('id');
-				if($this->admin_models->hapus_warga($id)){
-					$this->admin_models->delete_penilaian($id_warga);
+				if($this->admin_models->hapus_guru($id)){
+					$this->admin_models->delete_penilaian($id);
 					$this->session->set_flashdata('info', 'data berhasil di hapus!');				
-					redirect('admin/warga');
+					redirect('admin/guru');
 
 				}else{
 					$this->session->set_flashdata('danger', 'kesalahan menghapus data');				
-					redirect('admin/warga');
+					redirect('admin/guru');
 				}
 
 			}
