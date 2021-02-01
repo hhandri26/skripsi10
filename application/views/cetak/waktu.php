@@ -81,22 +81,42 @@
 	  			<th class="short">No</th>
 	  			<th class="normal">Nama Guru</th>
 	  			<th class="normal">Waktu SAW</th>
-                  <th class="normal">Waktu Topsis</th>
+          <th class="normal">Waktu Topsis</th>
+          <th class="normal">Selisih Waktu</th>
 	  		</tr>
 	  	</thead>
 	  	<tbody>
-	  		<?php $no=1; ?>
+        <?php 
+            $no=1; 
+            $total_wp = 0;
+            $total_topsis = 0; 
+            $total_selisih_waktu = 0;
+        ?>
 	  		<?php foreach($table as $row): ?>
 	  		  <tr>
-	  			<td><?php echo $no; ?></td>
+	  			<td><?php echo $no++; ?></td>
 	  			<td><?php echo $row->nama_guru ;?></td>
             <td><?php echo $row->waktu_wp;?></td>
             <td><?php echo $row->waktu_topsis;?></td>
+            <td><?php echo $row->waktu_wp - $row->waktu_topsis;?>
           
 	  		  </tr>
-	  		<?php $no++; ?>
+        <?php 
+          $total_wp +=$row->waktu_wp;
+          $total_topsis +=$row->waktu_topsis;
+          $total_selisih_waktu +=$row->waktu_wp - $row->waktu_topsis;
+        ?>
 	  		<?php endforeach; ?>
 	  	</tbody>
+      <tfoot>
+            <tr>
+                <td>Waktu Rata - rata</td>
+                <td></td>
+                <td><?php echo $total_wp / $no;?></td>
+                <td><?php echo $total_topsis / $no;?></td>
+                <td><?php echo $total_selisih_waktu / $no;?></td>
+            </tr>
+        </tfoot>
 	  </table>
 	 </div>
 </body>

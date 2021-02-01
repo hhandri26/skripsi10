@@ -13,7 +13,7 @@
 				<img src="">
 			</div>
 		  	<div class="login-box-body">
-		    	<img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/img/logo.jpg');?>" >
+		    	<img class="profile-user-img img-responsive" src="<?php echo base_url('assets/img/logo.jpg');?>" >
 				    <?php echo form_open('login/getlogin'); ?>
 				    	<?php if($this->session->flashdata('info')): ?>
 							<div><?php echo $this->session->flashdata('info'); ?></div>

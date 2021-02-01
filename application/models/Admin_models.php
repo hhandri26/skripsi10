@@ -205,6 +205,11 @@
 			return $this->db->delete('tb_penilaian');
 		}
 
+		public function delete_hasil_topsis($id){
+			$this->db->where('id_guru',$id);
+			return $this->db->delete('tb_hasil_topsis');
+		}
+
 		public function get_max_penilian($no){
 			$this->db->select_max('angka_penilaian');
 			$this->db->where('kd_kriteria',$no);

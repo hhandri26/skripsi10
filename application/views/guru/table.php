@@ -12,7 +12,7 @@
             <form class="form-horizontal" action="<?php echo base_url('admin/add_guru')?>" method="post" enctype="multipart/form-data" role="form">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-lg-4 col-sm-4 control-label">NIK</label>
+                        <label class="col-lg-4 col-sm-4 control-label">NIP</label>
                         <div class="col-lg-8">
                             <input type="number" class="form-control" id="nik" name="nik">
                         </div>
@@ -161,7 +161,7 @@
             <form class="form-horizontal" action="#" method="post" enctype="multipart/form-data" role="form">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-lg-4 col-sm-4 control-label">NIK</label>
+                        <label class="col-lg-4 col-sm-4 control-label">NIP</label>
                         <div class="col-lg-8">
                             <input type="number" class="form-control" id="nik" name="nik" readonly="">
                         </div>
@@ -213,11 +213,11 @@
         <thead>
             <tr>
             <th>No</th>
-            <th>Nip</th>
+            <th>NIP</th>
             <th>Nama</th>
             <th>Tempat Lahir</th>
             <th>Tanggal lahir</th>
-            <th>alamat</th>
+            <th>Alamat</th>
             
             <th style="width:100px">Aksi</th>
             </tr>

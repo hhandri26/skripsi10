@@ -26,6 +26,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-lg-4 col-sm-4 control-label">Jenis Kelamin</label>
+                <div class="col-lg-8">
+                   <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                        <option value="<?php echo $edit->jenis_kelamin;?>"><?php echo $edit->jenis_kelamin;?></option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                   </select>
+                    
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-lg-4 col-sm-4 control-label">Alamat</label>
                 <div class="col-lg-8">
                     <input type="text" class="form-control" id="alamat" name="alamat" value="<?php echo $edit->alamat;?>">

@@ -21,19 +21,40 @@ Laporan Tahun <?php echo date("Y"); ?>
                 <th>Nama Guru</th>               
                 <th>Waktu SAW</th>
                 <th>Waktu Topsis</th>
+                <th>Selisih Waktu</th>
             </tr>
         </thead>
         <tbody>
-        <?php $no=1; foreach ($table as $row ) {?>
+        <?php 
+            $no=1;
+            $total_wp = 0;
+            $total_topsis = 0; 
+            $total_selisih_waktu = 0;
+            foreach ($table as $row ) {?>
             <tr>
             <td><?php echo $no++ ;?></td>
             <td><?php echo $row->nama_guru ;?></td>
             <td><?php echo $row->waktu_wp;?></td>
             <td><?php echo $row->waktu_topsis;?>
+            <td><?php echo $row->waktu_wp - $row->waktu_topsis;?>
            </td>
             </tr>
-        <?php } ?>
+        <?php 
+        $total_wp +=$row->waktu_wp;
+        $total_topsis +=$row->waktu_topsis;
+        $total_selisih_waktu +=$row->waktu_wp - $row->waktu_topsis;
+    
+        } ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <td>Waktu Rata - rata</td>
+                <td></td>
+                <td><?php echo $total_wp / $no;?></td>
+                <td><?php echo $total_topsis / $no;?></td>
+                <td><?php echo $total_selisih_waktu / $no;?></td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
