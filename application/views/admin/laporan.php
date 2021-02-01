@@ -36,7 +36,7 @@ Laporan Tahun <?php echo date("Y"); ?>
             <td><?php echo $row->nama_guru ;?></td>
             <td><?php echo $row->waktu_wp;?></td>
             <td><?php echo $row->waktu_topsis;?>
-            <td><?php echo $row->waktu_wp - $row->waktu_topsis;?>
+            <td><?php echo abs($row->waktu_wp - $row->waktu_topsis);?>
            </td>
             </tr>
         <?php 
@@ -52,7 +52,7 @@ Laporan Tahun <?php echo date("Y"); ?>
                 <td></td>
                 <td><?php echo $total_wp / $no;?></td>
                 <td><?php echo $total_topsis / $no;?></td>
-                <td><?php echo $total_selisih_waktu / $no;?></td>
+                <td><?php echo abs($total_selisih_waktu / $no);?></td>
             </tr>
         </tfoot>
     </table>
