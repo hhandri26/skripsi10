@@ -27,6 +27,8 @@
     thead th{
       text-align: left;
       padding: 10px;
+      background-color: #005e90;
+    color: #fff;
     }
  
     tbody td{

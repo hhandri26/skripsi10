@@ -27,6 +27,8 @@
     thead th{
       text-align: left;
       padding: 10px;
+      background-color: #005e90;
+    color: #fff;
     }
  
     tbody td{
@@ -112,9 +114,9 @@
             <tr>
                 <td>Waktu Rata - rata</td>
                 <td></td>
-                <td><?php echo $total_wp / $no;?></td>
-                <td><?php echo $total_topsis / $no;?></td>
-                <td><?php echo abs($total_selisih_waktu / $no);?></td>
+                <td><?php echo round($total_wp / $no,4);?></td>
+                <td><?php echo round($total_topsis / $no,4);?></td>
+                <td><?php echo round(abs($total_selisih_waktu / $no),4);?></td>
             </tr>
         </tfoot>
 	  </table>
