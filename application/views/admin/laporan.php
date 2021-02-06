@@ -2,7 +2,7 @@ Laporan Tahun <?php echo date("Y"); ?>
 <br>
 <a href="<?php echo base_url('admin/cetak/waktu');?>" class="btn btn-info">Cetak PDF</a>
 <div class="box-body">
-    <div style="text-align: center;font-size: 30px;">
+    <div style="text-align: center;font-size: 20px;">
         <strong> Perbandingan Kecepatan Waktu Proses Pengolahan Data Pemilihan Guru Terbaik Antara Metode SAW dengan Metode Topsis</strong> 
     </div>
     
@@ -48,8 +48,13 @@ Laporan Tahun <?php echo date("Y"); ?>
         </tbody>
         <tfoot>
             <tr>
-                <td>Waktu Rata - rata</td>
-                <td></td>
+                <td colspan="2" style="text-align:center"> <b>Jumlah Total</b> </td>
+                <td><?php echo round($total_wp,4);?></td>
+                <td><?php echo round($total_topsis ,4);?></td>
+                <td><?php echo round(abs($total_selisih_waktu ),4);?></td>
+            </tr>
+            <tr>
+                <td  colspan="2" style="text-align:center"> <b>Kecepatan waktu rata-rata </b></td>
                 <td><?php echo round($total_wp / $no,4);?></td>
                 <td><?php echo round($total_topsis / $no,4);?></td>
                 <td><?php echo round(abs($total_selisih_waktu / $no),4);?></td>

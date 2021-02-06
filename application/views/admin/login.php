@@ -7,11 +7,12 @@
 		<?php $this->load->view($script_top); ?>
 	</head>
 	<body class="hold-transition login-page">
-		<div class="login-box">
-			<div class="login-logo" style="font-size:15px !important">
-				<a href=""><b>PERBANDINGAN IMPLEMENTASI SISTEM PENDUKUNG KEPUTUSAN METODE SAW DENGAN TOPSIS DALAM PEMILIHAN GURU TERBAIK</b></a>
+	<div class="login-logo" style="    font-size: 15px !important;margin-top: 100px; margin-bottom: -80px;">
+				<a href=""><b>PERBANDINGAN IMPLEMENTASI SISTEM PENDUKUNG KEPUTUSAN <br> METODE SAW DENGAN TOPSIS DALAM <br> PEMILIHAN GURU TERBAIK</b></a>
 				<img src="">
 			</div>
+		<div class="login-box">
+			
 		  	<div class="login-box-body">
 		    	<img class="profile-user-img img-responsive" src="<?php echo base_url('assets/img/logo.jpg');?>" >
 				    <?php echo form_open('login/getlogin'); ?>

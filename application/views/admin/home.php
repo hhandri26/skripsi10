@@ -15,7 +15,7 @@
   <a href="index2.html" class="logo" style="display: flex;">
       <img src="<?php echo base_url();?>/assets/img/logo.jpg" style="width: 40px;margin-right: 10px" alt="User Image">
       <span class="logo-mini"><b>A</b>DM</span>
-      <span class="logo-lg"><b><?php echo $this->session->userdata('username');?></b></span>
+      <span class="logo-lg"><b>SMPN 2 Rangkasbitung</b></span>
     </a>
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->

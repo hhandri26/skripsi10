@@ -1,7 +1,7 @@
 Laporan Tahun <?php echo date("Y"); ?><br>
 <a href="<?php echo base_url('admin/cetak/saw');?>" class="btn btn-info"> Cetak PDF</a>
 <div class="box-body">
-    <div style="text-align: center;font-size: 40px;">
+    <div style="text-align: center;font-size: 20px;">
     <strong> Hasil Pengolahan Data Pemilihan Guru Terbaik Menggunakan Metode SAW</strong> 
     </div>
     <table 

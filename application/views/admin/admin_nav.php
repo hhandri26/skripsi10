@@ -11,7 +11,7 @@
       <ul class="treeview-menu <?php echo ($nav_top == 'dashboard')? $class :""; ?>">
         <li <?php echo (basename($_SERVER['PHP_SELF']) == 'home')? $active :""; ?>>
           <a href="<?php echo base_url('admin');?>">
-        <i class="fa fa-home"></i> home</a></li>
+        <i class="fa fa-home"></i> Home</a></li>
       </ul>
     </li>
     
@@ -63,12 +63,13 @@
         </span>
       </a>
       <ul class="treeview-menu">
+      <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_topsis')? $active :""; ?>>
+          <a href="<?php echo base_url('admin/nilai_topsis');?>"><i class="fa fa-ellipsis-v"></i>Penilaian Topsis</a>
+        </li>
         <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_saw')? $active :""; ?>>
           <a href="<?php echo base_url('admin/nilai_saw');?>"><i class="fa fa-ellipsis-v"></i>Penilaian SAW</a>
         </li>
-        <li <?php echo (basename($_SERVER['PHP_SELF']) == 'nilai_topsis')? $active :""; ?>>
-          <a href="<?php echo base_url('admin/nilai_topsis');?>"><i class="fa fa-ellipsis-v"></i>Penilaian Topsis</a>
-        </li>
+        
       </ul>
     </li>
     <li class="treeview <?php echo ($nav_top == 'laporan')? $class :""; ?>">
